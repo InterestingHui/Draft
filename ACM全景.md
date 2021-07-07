@@ -1,3 +1,5 @@
+OI_WIKI[https://github.com/OI-wiki/OI-wiki]
+
 ### 五大专题
 <details><summary>数据结构</summary>
 
