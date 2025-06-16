@@ -1,0 +1,1300 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manner Coffee - 精品咖啡生活方式</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        /* 全局样式 - 绿色主题 */
+        :root {
+            --primary-color: #2E8B57;       /* 海绿色 */
+            --secondary-color: #3CB371;     /* 中等海洋绿 */
+            --accent-color: #228B22;        /* 森林绿 */
+            --light-color: #F0FFF0;         /* 蜜露色 */
+            --medium-green: #98FB98;        /* 浅绿色 */
+            --dark-color: #006400;          /* 深绿色 */
+            --text-color: #333333;
+            --text-light: #FFFFFF;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Helvetica Neue', Arial, 'Microsoft YaHei', sans-serif;
+        }
+
+        body {
+            background-color: var(--light-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        a {
+            text-decoration: none;
+            color: var(--primary-color);
+            transition: all 0.3s ease;
+        }
+
+        a:hover {
+            color: var(--accent-color);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* 头部样式 */
+        header {
+            background-color: var(--primary-color);
+            color: var(--text-light);
+            padding: 20px 0;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            transition: all 0.4s ease;
+        }
+
+        .scrolled {
+            background-color: rgba(46, 139, 87, 0.95);
+            padding: 15px 0;
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: bold;
+            letter-spacing: 1px;
+            transition: transform 0.3s ease;
+        }
+
+        .logo:hover {
+            transform: scale(1.05);
+        }
+
+        .logo span {
+            color: var(--medium-green);
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+
+        nav ul li {
+            margin-left: 30px;
+            position: relative;
+        }
+
+        nav ul li a {
+            color: var(--text-light);
+            font-weight: 500;
+            padding: 5px 0;
+            border-bottom: 2px solid transparent;
+        }
+
+        nav ul li a:hover {
+            color: var(--medium-green);
+            border-bottom: 2px solid var(--medium-green);
+        }
+
+        nav ul li a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: 0;
+            left: 0;
+            background-color: var(--medium-green);
+            transition: width 0.3s ease;
+        }
+
+        nav ul li a:hover::after {
+            width: 100%;
+        }
+
+        /* 轮播Banner */
+        .banner-container {
+            position: relative;
+            height: 500px;
+            overflow: hidden;
+            border-radius: 10px;
+            margin: 10px auto 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .banner-slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            opacity: 0;
+            transition: opacity 1.5s ease-in-out;
+            display: flex;
+            align-items: center;
+            text-align: center;
+            color: var(--text-light);
+        }
+
+        .banner-slide.active {
+            opacity: 1;
+        }
+
+        .banner-content {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 10px;
+            transform: translateY(50px);
+            transition: transform 0.8s ease;
+        }
+
+        .banner-slide.active .banner-content {
+            transform: translateY(0);
+        }
+
+        .banner-content h1 {
+            font-size: 48px;
+            margin-bottom: 20px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        .banner-content p {
+            font-size: 20px;
+            margin-bottom: 30px;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+        }
+
+        .banner-controls {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 10px;
+        }
+
+        .banner-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.5);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .banner-dot.active {
+            background: var(--accent-color);
+            transform: scale(1.2);
+        }
+
+        .banner-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 40px;
+            height: 40px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 10;
+        }
+
+        .banner-nav:hover {
+            background: rgba(0, 0, 0, 0.6);
+        }
+
+        .banner-prev {
+            left: 20px;
+        }
+
+        .banner-next {
+            right: 20px;
+        }
+
+        /* 特色区域 */
+        .features {
+            padding: 80px 0;
+            background-color: var(--light-color);
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 50px;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease;
+        }
+
+        .section-title.animate {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .section-title h2 {
+            font-size: 36px;
+            color: var(--primary-color);
+            position: relative;
+            display: inline-block;
+            padding-bottom: 15px;
+        }
+
+        .section-title h2::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 3px;
+            background-color: var(--accent-color);
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .feature-card {
+            background-color: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 0.5s ease;
+        }
+
+        .feature-card.animate {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .feature-card:nth-child(2) {
+            transition-delay: 0.2s;
+        }
+
+        .feature-card:nth-child(3) {
+            transition-delay: 0.4s;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 25px rgba(46, 139, 87, 0.2);
+        }
+
+        .feature-img {
+            height: 200px;
+            overflow: hidden;
+        }
+
+        .feature-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .feature-card:hover .feature-img img {
+            transform: scale(1.1);
+        }
+
+        .feature-content {
+            padding: 20px;
+        }
+
+        .feature-content h3 {
+            font-size: 22px;
+            margin-bottom: 15px;
+            color: var(--primary-color);
+        }
+
+        /* 产品中心 */
+        .products {
+            padding: 80px 0;
+            background-color: #FFF;
+            background-image: linear-gradient(to bottom, #FFFFFF, var(--light-color));
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+        }
+
+        .product-card {
+            background-color: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 0.5s ease;
+        }
+
+        .product-card.animate {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .product-card:nth-child(2) {
+            transition-delay: 0.2s;
+        }
+
+        .product-card:nth-child(3) {
+            transition-delay: 0.4s;
+        }
+
+        .product-card:nth-child(4) {
+            transition-delay: 0.6s;
+        }
+
+        .product-card:hover {
+            box-shadow: 0 10px 25px rgba(34, 139, 34, 0.2);
+            transform: translateY(-10px);
+        }
+
+        .product-img {
+            height: 250px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .product-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .product-card:hover .product-img img {
+            transform: scale(1.1);
+        }
+
+        .product-tag {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: var(--accent-color);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(34, 139, 34, 0.7); }
+            70% { box-shadow: 0 0 0 10px rgba(34, 139, 34, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(34, 139, 34, 0); }
+        }
+
+        .product-content {
+            padding: 20px;
+        }
+
+        .product-content h3 {
+            font-size: 20px;
+            margin-bottom: 10px;
+        }
+
+        .product-price {
+            font-size: 18px;
+            font-weight: bold;
+            color: var(--primary-color);
+            margin-bottom: 15px;
+        }
+
+        .product-rating {
+            color: #FFD700;
+            margin-bottom: 15px;
+        }
+
+        .product-btn {
+            display: block;
+            text-align: center;
+            background-color: var(--primary-color);
+            color: white;
+            padding: 10px;
+            border-radius: 5px;
+            font-weight: bold;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .product-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: 0.5s;
+            z-index: -1;
+        }
+
+        .product-btn:hover::before {
+            left: 100%;
+        }
+
+        .product-btn:hover {
+            background-color: var(--dark-color);
+        }
+
+        /* 咖啡知识 */
+        .knowledge {
+            padding: 80px 0;
+            background-color: var(--light-color);
+        }
+
+        .knowledge-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+        }
+
+        .article-card {
+            background-color: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 0.5s ease;
+        }
+
+        .article-card.animate {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .article-card:nth-child(2) {
+            transition-delay: 0.2s;
+        }
+
+        .article-card:nth-child(3) {
+            transition-delay: 0.4s;
+        }
+
+        .article-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(46, 139, 87, 0.1);
+        }
+
+        .article-img {
+            height: 200px;
+            overflow: hidden;
+        }
+
+        .article-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .article-card:hover .article-img img {
+            transform: scale(1.1);
+        }
+
+        .article-content {
+            padding: 20px;
+        }
+
+        .article-date {
+            font-size: 14px;
+            color: #777;
+            margin-bottom: 10px;
+        }
+
+        .article-content h3 {
+            font-size: 22px;
+            margin-bottom: 15px;
+            color: var(--primary-color);
+        }
+
+        .article-excerpt {
+            margin-bottom: 15px;
+            color: #555;
+        }
+
+        .read-more {
+            color: var(--accent-color);
+            font-weight: bold;
+            position: relative;
+            display: inline-block;
+        }
+
+        .read-more::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--accent-color);
+            transition: width 0.3s ease;
+        }
+
+        .read-more:hover::after {
+            width: 100%;
+        }
+
+        /* 联系售后 */
+        .contact {
+            padding: 80px 0;
+            background: linear-gradient(rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.9)), url('https://images.unsplash.com/photo-1511920170033-f8396924c348?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+            background-size: cover;
+            background-position: center;
+        }
+
+        .contact-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 50px;
+        }
+
+        .contact-info h3 {
+            font-size: 24px;
+            color: var(--primary-color);
+            margin-bottom: 20px;
+        }
+
+        .contact-details {
+            margin-bottom: 30px;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 15px;
+            opacity: 0;
+            transform: translateX(-20px);
+            transition: all 0.5s ease;
+        }
+
+        .contact-item.animate {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .contact-item:nth-child(2) {
+            transition-delay: 0.2s;
+        }
+
+        .contact-item:nth-child(3) {
+            transition-delay: 0.4s;
+        }
+
+        .contact-item:nth-child(4) {
+            transition-delay: 0.6s;
+        }
+
+        .contact-icon {
+            margin-right: 15px;
+            color: var(--accent-color);
+            font-size: 20px;
+        }
+
+        .contact-form input,
+        .contact-form textarea {
+            width: 100%;
+            padding: 12px 15px;
+            margin-bottom: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+
+        .contact-form input:focus,
+        .contact-form textarea:focus {
+            border-color: var(--accent-color);
+            box-shadow: 0 0 8px rgba(34, 139, 34, 0.3);
+            outline: none;
+        }
+
+        .contact-form textarea {
+            height: 150px;
+            resize: vertical;
+        }
+
+        .contact-form button {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 30px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .contact-form button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: 0.5s;
+            z-index: -1;
+        }
+
+        .contact-form button:hover::before {
+            left: 100%;
+        }
+
+        .contact-form button:hover {
+            background-color: var(--dark-color);
+        }
+
+        /* 页脚 */
+        footer {
+            background-color: var(--dark-color);
+            color: var(--text-light);
+            padding: 50px 0 20px;
+        }
+
+        .footer-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        .footer-col h3 {
+            font-size: 20px;
+            margin-bottom: 20px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        .footer-col h3::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 2px;
+            background-color: var(--accent-color);
+        }
+
+        .footer-col p {
+            margin-bottom: 15px;
+            color: #ddd;
+        }
+
+        .footer-links li {
+            margin-bottom: 10px;
+            list-style: none;
+        }
+
+        .footer-links a {
+            color: #ddd;
+            transition: all 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: var(--medium-green);
+            padding-left: 5px;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+        }
+
+        .social-links a {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            background-color: rgba(255, 255, 255, 0.1);
+            color: white;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 40px;
+            transition: all 0.3s ease;
+        }
+
+        .social-links a:hover {
+            background-color: var(--accent-color);
+            transform: translateY(-5px);
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: #aaa;
+            font-size: 14px;
+        }
+
+        /* 返回顶部按钮 */
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 50px;
+            height: 50px;
+            background-color: var(--accent-color);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            z-index: 99;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .back-to-top.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .back-to-top:hover {
+            background-color: var(--primary-color);
+            transform: translateY(-5px);
+        }
+
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .header-container {
+                flex-direction: column;
+            }
+
+            nav ul {
+                margin-top: 20px;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            nav ul li {
+                margin: 5px 10px;
+            }
+
+            .banner-content h1 {
+                font-size: 36px;
+            }
+
+            .banner-content p {
+                font-size: 18px;
+            }
+
+            .banner-container {
+                height: 400px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .banner-content h1 {
+                font-size: 28px;
+            }
+
+            .banner-content p {
+                font-size: 16px;
+            }
+
+            .banner-container {
+                height: 350px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 头部 -->
+    <header id="header">
+        <div class="container header-container">
+            <div class="logo">MANNER <span>COFFEE</span></div>
+            <nav>
+                <ul>
+                    <li><a href="#home">首页</a></li>
+                    <li><a href="#products">产品中心</a></li>
+                    <li><a href="#knowledge">咖啡知识</a></li>
+                    <li><a href="#about">关于我们</a></li>
+                    <li><a href="#contact">联系售后</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- 轮播Banner -->
+    <div class="banner-container" id="home">
+        <div class="banner-slide active" style="background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://images.unsplash.com/photo-1447933601403-0c6688de566e?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');">
+            <div class="banner-content">
+                <h1>品味精品咖啡的艺术</h1>
+                <p>Manner Coffee致力于为咖啡爱好者提供高品质的精品咖啡体验，从咖啡豆的精选到烘焙工艺，每一杯都倾注了我们的热情与专业。</p>
+                <a href="#products" class="btn">探索产品</a>
+            </div>
+        </div>
+        <div class="banner-slide" style="background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://images.unsplash.com/photo-1497636577773-f1231844b336?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');">
+            <div class="banner-content">
+                <h1>精选全球优质咖啡豆</h1>
+                <p>我们直接从全球优质咖啡产区采购100%阿拉比卡咖啡豆，确保每一颗豆子都达到最高标准。</p>
+                <a href="#products" class="btn">查看产品</a>
+            </div>
+        </div>
+        <div class="banner-slide" style="background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');">
+            <div class="banner-content">
+                <h1>咖啡知识分享</h1>
+                <p>探索咖啡的世界，从种植到冲泡，了解每一杯咖啡背后的故事。</p>
+                <a href="#knowledge" class="btn">学习更多</a>
+            </div>
+        </div>
+        <div class="banner-nav banner-prev">
+            <i class="fas fa-chevron-left"></i>
+        </div>
+        <div class="banner-nav banner-next">
+            <i class="fas fa-chevron-right"></i>
+        </div>
+        <div class="banner-controls">
+            <div class="banner-dot active"></div>
+            <div class="banner-dot"></div>
+            <div class="banner-dot"></div>
+        </div>
+    </div>
+
+    <!-- 特色区域 -->
+    <section class="features">
+        <div class="container">
+            <div class="section-title">
+                <h2>为什么选择Manner</h2>
+            </div>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-img">
+                        <img src="https://images.unsplash.com/photo-1461023058943-07fcbe16d735?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="优质咖啡豆">
+                    </div>
+                    <div class="feature-content">
+                        <h3>精选优质咖啡豆</h3>
+                        <p>我们直接从全球优质咖啡产区采购100%阿拉比卡咖啡豆，确保每一颗豆子都达到最高标准。</p>
+                    </div>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-img">
+                        <img src="https://images.unsplash.com/photo-1517701550927-30cf4ba1dba5?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="精湛烘焙">
+                    </div>
+                    <div class="feature-content">
+                        <h3>精湛烘焙工艺</h3>
+                        <p>由资深烘焙师精心把控每一批咖啡豆的烘焙曲线，释放咖啡豆的最佳风味特性。</p>
+                    </div>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-img">
+                        <img src="https://images.unsplash.com/photo-1517701550927-30cf4ba1dba5?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="可持续种植">
+                    </div>
+                    <div class="feature-content">
+                        <h3>可持续种植</h3>
+                        <p>我们与咖啡农建立直接贸易关系，支持可持续种植实践，确保咖啡产业的未来发展。</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 产品中心 -->
+    <section class="products" id="products">
+        <div class="container">
+            <div class="section-title">
+                <h2>产品中心</h2>
+            </div>
+            <div class="products-grid">
+                <div class="product-card">
+                    <div class="product-img">
+                        <img src="https://images.unsplash.com/photo-1534685785745-60a2cea0ec34?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="埃塞俄比亚耶加雪菲">
+                        <span class="product-tag">新品</span>
+                    </div>
+                    <div class="product-content">
+                        <h3>埃塞俄比亚耶加雪菲</h3>
+                        <div class="product-rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star-half-alt"></i>
+                        </div>
+                        <div class="product-price">¥98/200g</div>
+                        <p>明亮的柑橘酸度，茉莉花香气，余韵持久。</p>
+                        <a href="#" class="product-btn">加入购物车</a>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <div class="product-img">
+                        <img src="https://images.unsplash.com/photo-1517701550927-30cf4ba1dba5?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="哥伦比亚慧兰">
+                    </div>
+                    <div class="product-content">
+                        <h3>哥伦比亚慧兰</h3>
+                        <div class="product-rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <div class="product-price">¥88/200g</div>
+                        <p>均衡的口感，坚果巧克力风味，带有焦糖甜感。</p>
+                        <a href="#" class="product-btn">加入购物车</a>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <div class="product-img">
+                        <img src="https://images.unsplash.com/photo-1511920170033-f8396924c348?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="巴西甜蜜日晒">
+                        <span class="product-tag">热销</span>
+                    </div>
+                    <div class="product-content">
+                        <h3>巴西甜蜜日晒</h3>
+                        <div class="product-rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="far fa-star"></i>
+                        </div>
+                        <div class="product-price">¥78/200g</div>
+                        <p>醇厚顺滑，明显的坚果和巧克力风味，低酸度。</p>
+                        <a href="#" class="product-btn">加入购物车</a>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <div class="product-img">
+                        <img src="https://images.unsplash.com/photo-1461023058943-07fcbe16d735?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="曼特宁G1">
+                    </div>
+                    <div class="product-content">
+                        <h3>曼特宁G1</h3>
+                        <div class="product-rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <div class="product-price">¥108/200g</div>
+                        <p>浓郁醇厚，带有泥土和木质香气，余韵悠长。</p>
+                        <a href="#" class="product-btn">加入购物车</a>
+                    </div>
+                </div>
+            </div>
+            <div style="text-align: center; margin-top: 40px;">
+                <a href="#" class="btn">浏览所有产品</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- 咖啡知识 -->
+    <section class="knowledge" id="knowledge">
+        <div class="container">
+            <div class="section-title">
+                <h2>咖啡知识</h2>
+            </div>
+            <div class="knowledge-grid">
+                <div class="article-card">
+                    <div class="article-img">
+                        <img src="https://images.unsplash.com/photo-1459755486867-b55449bb39ff?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="咖啡冲泡指南">
+                    </div>
+                    <div class="article-content">
+                        <div class="article-date">2023年6月15日</div>
+                        <h3>手冲咖啡完全指南：从入门到精通</h3>
+                        <p class="article-excerpt">学习如何在家制作完美的手冲咖啡，包括水粉比、水温、研磨度和冲泡技巧等关键因素...</p>
+                        <a href="#" class="read-more">阅读更多 →</a>
+                    </div>
+                </div>
+                <div class="article-card">
+                    <div class="article-img">
+                        <img src="https://images.unsplash.com/photo-1517701550927-30cf4ba1dba5?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="咖啡豆产地">
+                    </div>
+                    <div class="article-content">
+                        <div class="article-date">2023年6月8日</div>
+                        <h3>全球主要咖啡产区风味特点解析</h3>
+                        <p class="article-excerpt">探索埃塞俄比亚、哥伦比亚、巴西等主要咖啡产区的独特风味特点及形成原因...</p>
+                        <a href="#" class="read-more">阅读更多 →</a>
+                    </div>
+                </div>
+                <div class="article-card">
+                    <div class="article-img">
+                        <img src="https://images.unsplash.com/photo-1534685785745-60a2cea0ec34?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="咖啡健康">
+                    </div>
+                    <div class="article-content">
+                        <div class="article-date">2023年6月1日</div>
+                        <h3>咖啡与健康：科学研究的全面解读</h3>
+                        <p class="article-excerpt">最新科学研究揭示咖啡对健康的潜在益处和注意事项，帮助您更明智地享用咖啡...</p>
+                        <a href="#" class="read-more">阅读更多 →</a>
+                    </div>
+                </div>
+            </div>
+            <div style="text-align: center; margin-top: 40px;">
+                <a href="#" class="btn">查看所有文章</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- 联系售后 -->
+    <section class="contact" id="contact">
+        <div class="container">
+            <div class="section-title">
+                <h2>联系我们</h2>
+            </div>
+            <div class="contact-container">
+                <div class="contact-info">
+                    <h3>售后与咨询</h3>
+                    <div class="contact-details">
+                        <div class="contact-item">
+                            <div class="contact-icon">
+                                <i class="fas fa-map-marker-alt"></i>
+                            </div>
+                            <div>
+                                <h4>地址</h4>
+                                <p>上海市静安区南京西路1266号恒隆广场</p>
+                            </div>
+                        </div>
+                        <div class="contact-item">
+                            <div class="contact-icon">
+                                <i class="fas fa-phone-alt"></i>
+                            </div>
+                            <div>
+                                <h4>电话</h4>
+                                <p>400-820-8820</p>
+                            </div>
+                        </div>
+                        <div class="contact-item">
+                            <div class="contact-icon">
+                                <i class="fas fa-envelope"></i>
+                            </div>
+                            <div>
+                                <h4>邮箱</h4>
+                                <p>service@mannercoffee.com</p>
+                            </div>
+                        </div>
+                        <div class="contact-item">
+                            <div class="contact-icon">
+                                <i class="fas fa-clock"></i>
+                            </div>
+                            <div>
+                                <h4>工作时间</h4>
+                                <p>周一至周五: 9:00 - 18:00<br>周末: 10:00 - 16:00</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="contact-form">
+                    <form>
+                        <input type="text" placeholder="您的姓名" required>
+                        <input type="email" placeholder="您的邮箱" required>
+                        <input type="tel" placeholder="您的电话">
+                        <textarea placeholder="您的留言或问题" required></textarea>
+                        <button type="submit">发送消息</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 页脚 -->
+    <footer>
+        <div class="container">
+            <div class="footer-container">
+                <div class="footer-col">
+                    <h3>关于Manner</h3>
+                    <p>Manner Coffee成立于2015年，致力于为咖啡爱好者提供高品质的精品咖啡体验。我们坚持直接贸易，确保咖啡农获得公平报酬。</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-weixin"></i></a>
+                        <a href="#"><i class="fab fa-weibo"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    </div>
+                </div>
+                <div class="footer-col">
+                    <h3>快速链接</h3>
+                    <ul class="footer-links">
+                        <li><a href="#home">首页</a></li>
+                        <li><a href="#products">产品中心</a></li>
+                        <li><a href="#knowledge">咖啡知识</a></li>
+                        <li><a href="#about">关于我们</a></li>
+                        <li><a href="#contact">联系售后</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h3>客户服务</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">常见问题</a></li>
+                        <li><a href="#">配送政策</a></li>
+                        <li><a href="#">退换货政策</a></li>
+                        <li><a href="#">隐私政策</a></li>
+                        <li><a href="#">条款与条件</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h3>订阅资讯</h3>
+                    <p>订阅我们的电子报，获取最新产品信息、优惠活动和咖啡知识。</p>
+                    <form>
+                        <input type="email" placeholder="您的邮箱地址" style="width: 100%; padding: 10px; margin-bottom: 10px; border-radius: 5px; border: none;">
+                        <button type="submit" style="background-color: var(--accent-color); color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer;">订阅</button>
+                    </form>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2023 Manner Coffee. 保留所有权利。</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- 返回顶部按钮 -->
+    <div class="back-to-top">
+        <i class="fas fa-arrow-up"></i>
+    </div>
+
+    <script>
+        // 轮播Banner功能
+        const slides = document.querySelectorAll('.banner-slide');
+        const dots = document.querySelectorAll('.banner-dot');
+        const prevBtn = document.querySelector('.banner-prev');
+        const nextBtn = document.querySelector('.banner-next');
+        let currentSlide = 0;
+        const slideInterval = 5000; // 5秒切换一次
+
+        // 初始化轮播
+        function initSlider() {
+            if (slides.length === 0) return;
+            
+            slides[0].classList.add('active');
+            dots[0].classList.add('active');
+            
+            // 自动轮播
+            setInterval(nextSlide, slideInterval);
+        }
+
+        // 下一张幻灯片
+        function nextSlide() {
+            goToSlide(currentSlide === slides.length - 1 ? 0 : currentSlide + 1);
+        }
+
+        // 上一张幻灯片
+        function prevSlide() {
+            goToSlide(currentSlide === 0 ? slides.length - 1 : currentSlide - 1);
+        }
+
+        // 跳转到指定幻灯片
+        function goToSlide(n) {
+            slides[currentSlide].classList.remove('active');
+            dots[currentSlide].classList.remove('active');
+            currentSlide = (n + slides.length) % slides.length;
+            slides[currentSlide].classList.add('active');
+            dots[currentSlide].classList.add('active');
+        }
+
+        // 为控制按钮添加事件监听
+        prevBtn.addEventListener('click', prevSlide);
+        nextBtn.addEventListener('click', nextSlide);
+
+        // 为指示点添加事件监听
+        dots.forEach((dot, index) => {
+            dot.addEventListener('click', () => goToSlide(index));
+        });
+
+        // 滚动动画效果
+        function animateOnScroll() {
+            const elements = document.querySelectorAll('.section-title, .feature-card, .product-card, .article-card, .contact-item');
+            
+            elements.forEach(element => {
+                const elementTop = element.getBoundingClientRect().top;
+                const windowHeight = window.innerHeight;
+                
+                if (elementTop < windowHeight - 100) {
+                    element.classList.add('animate');
+                }
+            });
+        }
+
+        // 导航栏滚动效果
+        function headerScrollEffect() {
+            const header = document.getElementById('header');
+            if (window.scrollY > 100) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        }
+
+        // 返回顶部按钮
+        function backToTop() {
+            const backToTopBtn = document.querySelector('.back-to-top');
+            if (window.scrollY > 300) {
+                backToTopBtn.classList.add('visible');
+            } else {
+                backToTopBtn.classList.remove('visible');
+            }
+            
+            backToTopBtn.addEventListener('click', () => {
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
+            });
+        }
+
+        // 平滑滚动
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    window.scrollTo({
+                        top: target.offsetTop - 100,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+
+        // 初始化
+        document.addEventListener('DOMContentLoaded', () => {
+            initSlider();
+            animateOnScroll();
+            headerScrollEffect();
+            backToTop();
+            
+            // 添加滚动事件监听
+            window.addEventListener('scroll', () => {
+                animateOnScroll();
+                headerScrollEffect();
+                backToTop();
+            });
+        });
+    </script>
+</body>
+</html>
